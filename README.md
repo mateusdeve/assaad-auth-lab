@@ -15,6 +15,9 @@ cada fase é um PR:
 | 3 | [#3](https://github.com/mateusdeve/assaad-auth-lab/pull/3) | Demonstração multi-aba do bug ([docs/fase-3.md](docs/fase-3.md)) |
 | 4 | [#4](https://github.com/mateusdeve/assaad-auth-lab/pull/4) | Correção em 3 camadas + validação ([docs/fase-4.md](docs/fase-4.md)) |
 
+**Parte 1 (teórica):** respostas às 6 questões em
+[docs/parte-1-teorica.md](docs/parte-1-teorica.md).
+
 ## A causa-raiz (pela ótica do front)
 
 O GoTrue rotaciona refresh tokens: cada um é **de uso único** e renovar
