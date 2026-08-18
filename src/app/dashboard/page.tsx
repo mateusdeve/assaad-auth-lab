@@ -16,6 +16,11 @@ export default async function DashboardPage() {
   if (error || !user) {
     // Nas Fases 1–3 este redirect também dispara quando o refresh feito
     // dentro do RSC falha em persistir o cookie — o "logout aleatório".
+    console.log(
+      `\x1b[33m[authlab server] redirect /login\x1b[0m motivo: ${
+        error?.message ?? "sem usuário"
+      }`
+    );
     redirect("/login");
   }
 
