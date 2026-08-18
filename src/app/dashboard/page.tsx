@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/login/actions";
 import { SessionPanel } from "./session-panel";
+import { DemoCongelamento } from "./demo-congelamento";
 
 // Proteção da rota feita aqui, junto do dado (não no proxy — CVE-2025-29927).
 // getUser() valida o token contra o servidor de Auth; nunca getSession() aqui.
@@ -41,6 +42,7 @@ export default async function DashboardPage() {
           </form>
         </header>
 
+        <DemoCongelamento />
         <SessionPanel />
       </div>
     </main>
