@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { createClient, AUTHLAB_LOG_EVENT } from "@/lib/supabase/client";
+import {
+  createClient,
+  authCookieName,
+  AUTHLAB_LOG_EVENT,
+} from "@/lib/supabase/client";
 import { suffix, type AuthLogEntry } from "@/lib/supabase/instrument";
 
 type PanelEvent = { at: string; label: string; bad?: boolean };
@@ -15,8 +19,9 @@ function refreshTokenFromCookie(): string | null {
     return [c.slice(0, eq), decodeURIComponent(c.slice(eq + 1))] as const;
   });
 
+  const key = authCookieName();
   const chunks = jar
-    .filter(([name]) => /^sb-.*-auth-token(\.\d+)?$/.test(name))
+    .filter(([name]) => name === key || name.startsWith(`${key}.`))
     .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
 
   if (chunks.length === 0) return null;
@@ -24,7 +29,9 @@ function refreshTokenFromCookie(): string | null {
   let raw = chunks.map(([, v]) => v).join("");
   try {
     if (raw.startsWith("base64-")) {
-      raw = atob(raw.slice(7).replace(/-/g, "+").replace(/_/g, "/"));
+      let b64 = raw.slice(7).replace(/-/g, "+").replace(/_/g, "/");
+      b64 += "=".repeat((4 - (b64.length % 4)) % 4);
+      raw = atob(b64);
     }
     return (JSON.parse(raw) as { refresh_token?: string }).refresh_token ?? null;
   } catch {
@@ -49,7 +56,7 @@ export function SessionPanel() {
         [
           { at: new Date().toLocaleTimeString(), label, bad },
           ...prev,
-        ].slice(0, 30)
+        ].slice(0, 8)
       );
 
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
