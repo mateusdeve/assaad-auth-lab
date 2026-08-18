@@ -157,8 +157,11 @@ site_url = "http://127.0.0.1:3000"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = ["https://127.0.0.1:3000"]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
-# Lab: 30s para tornar a corrida de refresh reproduzível em segundos (Fase 2).
-jwt_expiry = 30
+# Lab: curto para tornar a corrida de refresh reproduzível em segundos (Fase 2).
+# 120s e não 30s: o auth-js renova quando faltam 90s (EXPIRY_MARGIN_MS);
+# com expiry <= 90s TODO token está "para vencer" e cada getUser()/getSession()
+# dispara refresh — tempestade que distorce o experimento (Fase 4).
+jwt_expiry = 120
 # JWT issuer URL. If not set, defaults to auth.external_url.
 # jwt_issuer = ""
 # Path to JWT signing key. DO NOT commit your signing keys file to git.

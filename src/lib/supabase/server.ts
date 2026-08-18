@@ -65,13 +65,11 @@ export async function createClient() {
               );
             }
           } catch {
-            // BUG INTENCIONAL (Fases 1–3): quando este cliente é usado num
-            // Server Component, o Next proíbe escrever cookies e este catch
-            // engole a falha. Se o @supabase/ssr rotacionar o refresh token
-            // aqui dentro, o token novo é PERDIDO e o cookie continua com o
-            // token antigo (de uso único, já consumido) → logout "aleatório".
-            // Sem proxy.ts fazendo o refresh, este caminho é atingido sempre
-            // que o access token expira. Não corrigir antes da Fase 4.
+            // Padrão oficial do @supabase/ssr: em Server Component o Next
+            // proíbe escrever cookies. Com o proxy.ts renovando o token
+            // ANTES do RSC (Fase 4), rotação aqui dentro não deve mais
+            // acontecer — se o log abaixo aparecer, é regressão (era esse
+            // caminho que causava o deslogamento aleatório nas Fases 1–3).
             if (authCookies.length > 0) {
               serverLog(
                 makeEntry(

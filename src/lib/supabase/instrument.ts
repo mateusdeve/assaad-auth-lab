@@ -4,13 +4,16 @@
 
 export type AuthLogEntry = {
   at: string;
-  side: "server" | "browser";
+  side: "server" | "browser" | "proxy";
   kind:
     | "refresh_ok"
     | "refresh_fail"
     | "password_ok"
     | "cookie_write"
-    | "cookie_write_dropped";
+    | "cookie_write_dropped"
+    | "cookie_guard"
+    | "recover_ok"
+    | "recover_fail";
   detail: string;
 };
 

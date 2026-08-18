@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/login/actions";
 import { SessionPanel } from "./session-panel";
 import { DemoCongelamento } from "./demo-congelamento";
+import { SessionRecovery } from "./session-recovery";
 
 // Proteção da rota feita aqui, junto do dado (não no proxy — CVE-2025-29927).
 // getUser() valida o token contra o servidor de Auth; nunca getSession() aqui.
@@ -15,8 +16,8 @@ export default async function DashboardPage() {
   } = await supabase.auth.getUser();
 
   if (error || !user) {
-    // Nas Fases 1–3 este redirect também dispara quando o refresh feito
-    // dentro do RSC falha em persistir o cookie — o "logout aleatório".
+    // Com o proxy renovando o token antes do RSC, chegar aqui significa
+    // sessão realmente ausente/inválida — o redirect é legítimo.
     console.log(
       `\x1b[33m[authlab server] redirect /login\x1b[0m motivo: ${
         error?.message ?? "sem usuário"
@@ -42,6 +43,7 @@ export default async function DashboardPage() {
           </form>
         </header>
 
+        <SessionRecovery />
         <DemoCongelamento />
         <SessionPanel />
       </div>

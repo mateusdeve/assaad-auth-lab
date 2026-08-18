@@ -2,26 +2,18 @@
 
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { createClient, authCookieName } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { suffix } from "@/lib/supabase/instrument";
 
-// FERRAMENTA DE DEMO (Fase 3): simula uma aba que congelou (background,
-// laptop suspenso) segurando uma sessão antiga e, ao acordar, grava esse
-// estado defasado por cima do cookie compartilhado — exatamente a corrida
-// de escrita não-atômica em document.cookie que acontece entre abas reais.
-// A partir daí só rodam caminhos reais: o SSR e o auto-refresh das outras
-// abas leem o cookie defasado, tentam renovar com token já consumido e o
-// GoTrue responde refresh_token_already_used.
-
-function writeSessionCookie(session: Session) {
-  const name = authCookieName();
-  const json = JSON.stringify(session);
-  const value =
-    "base64-" +
-    btoa(json).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-  if (value.length > 3900) throw new Error("sessão grande demais para a demo");
-  document.cookie = `${name}=${value}; path=/; max-age=34560000; SameSite=Lax`;
-}
+// FERRAMENTA DE DEMO: simula uma aba que congelou (background, laptop
+// suspenso) segurando uma sessão antiga e que, ao acordar, tenta usá-la —
+// via supabase.auth.setSession(), o caminho real da lib: com o access token
+// vencido, ela dispara um refresh com o refresh token defasado (já
+// consumido) e o GoTrue responde refresh_token_already_used.
+//
+// Nas Fases 1–3 esse gesto derrubava TODAS as abas (o auth-js apagava o
+// cookie compartilhado). Na Fase 4, a guarda de escrita preserva o cookie
+// bom e o SessionRecovery reidrata a sessão — ninguém desloga.
 
 export function DemoCongelamento() {
   const [frozen, setFrozen] = useState<Session | null>(null);
@@ -56,11 +48,15 @@ export function DemoCongelamento() {
     setFrozenAt(Date.now());
   };
 
-  const acordar = () => {
+  const acordar = async () => {
     if (!frozen) return;
-    writeSessionCookie(frozen);
-    // A aba que acordou navega — o SSR recebe o cookie defasado.
-    window.location.reload();
+    const supabase = createClient();
+    // Caminho real: a aba "acordou" e tenta retomar com a sessão que tinha
+    // em memória. O erro do refresh (se houver) aparece no painel.
+    await supabase.auth.setSession({
+      access_token: frozen.access_token,
+      refresh_token: frozen.refresh_token,
+    });
   };
 
   const rotated = frozen !== null && currentRt !== null && frozen.refresh_token !== currentRt;

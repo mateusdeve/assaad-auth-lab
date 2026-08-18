@@ -8,35 +8,13 @@ import {
   AUTHLAB_LOG_EVENT,
 } from "@/lib/supabase/client";
 import { suffix, type AuthLogEntry } from "@/lib/supabase/instrument";
+import { readSessionFromCookies } from "@/lib/supabase/cookies";
 
 type PanelEvent = { at: string; label: string; bad?: boolean };
 
-// Lê o refresh token gravado no COOKIE (o que o servidor enxerga), inclusive
-// cookies fatiados (.0, .1) e com prefixo "base64-".
+// Lê o refresh token gravado no COOKIE (o que o servidor enxerga).
 function refreshTokenFromCookie(): string | null {
-  const jar = document.cookie.split("; ").map((c) => {
-    const eq = c.indexOf("=");
-    return [c.slice(0, eq), decodeURIComponent(c.slice(eq + 1))] as const;
-  });
-
-  const key = authCookieName();
-  const chunks = jar
-    .filter(([name]) => name === key || name.startsWith(`${key}.`))
-    .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
-
-  if (chunks.length === 0) return null;
-
-  let raw = chunks.map(([, v]) => v).join("");
-  try {
-    if (raw.startsWith("base64-")) {
-      let b64 = raw.slice(7).replace(/-/g, "+").replace(/_/g, "/");
-      b64 += "=".repeat((4 - (b64.length % 4)) % 4);
-      raw = atob(b64);
-    }
-    return (JSON.parse(raw) as { refresh_token?: string }).refresh_token ?? null;
-  } catch {
-    return null;
-  }
+  return readSessionFromCookies(authCookieName())?.refresh_token ?? null;
 }
 
 // Mostra a sessão COMO O BROWSER A VÊ e compara com o que está no cookie
@@ -74,7 +52,10 @@ export function SessionPanel() {
 
     const onLog = (e: Event) => {
       const entry = (e as CustomEvent<AuthLogEntry>).detail;
-      push(`${entry.kind}: ${entry.detail}`, entry.kind === "refresh_fail");
+      push(
+        `${entry.kind}: ${entry.detail}`,
+        entry.kind === "refresh_fail" || entry.kind === "cookie_guard"
+      );
     };
     window.addEventListener(AUTHLAB_LOG_EVENT, onLog);
 
