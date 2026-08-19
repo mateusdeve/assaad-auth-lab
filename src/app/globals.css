@@ -1,49 +1,36 @@
 @import "tailwindcss";
 
-/* Design system "Agence Foudre" adaptado à Plataforma Assaad:
-   canvas creme quente, display condensado em magenta, corpo em verde
-   floresta. Flat de propósito — sem sombras, sem gradientes; a hierarquia
-   vem de escala tipográfica e cor. */
+/* Identidade da Plataforma Assaad (extraída do app real):
+   azul primário #456DFF, laranja secundário #FF9F0A, Inter, superfícies
+   neutras escuras. Tema escuro único — canvas quase-preto, cartões em
+   painel, hierarquia por peso tipográfico e cor de acento. */
 @theme {
-  /* Cores */
-  --color-magenta: #db3c8a;
-  --color-ink: #00522d;
-  --color-blush: #fce5df;
-  --color-chalk: #fff8f6;
-  --color-lilac: #d1cfe4;
-  --color-bubblegum: #f29ebd;
-  --color-cotton: #e878b2;
+  --color-blue: #456dff;
+  --color-blue-soft: #7d97ff;
+  --color-orange: #ff9f0a;
+  --color-red: #ff453a;
 
-  /* Tipografia: Anton substitui Beni (display); Inter substitui
-     Clash Grotesk (todo o chrome funcional). Duas famílias, nunca mais. */
-  --font-display: var(--font-anton), "Arial Narrow", sans-serif;
+  --color-ink: #0f1116; /* canvas */
+  --color-panel: #161922; /* cartões */
+  --color-line: #262b38; /* bordas */
+  --color-snow: #f5f6f8; /* texto */
+  --color-mist: #9aa1af; /* texto secundário */
+
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-
-  --radius-buttons: 10px;
-  --radius-cards: 20px;
 }
 
 body {
-  background: var(--color-chalk);
-  color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-snow);
   font-family: var(--font-sans);
 }
 
-/* Display editorial: caixa alta, leading apertado que faz o bloco de tipo
-   parecer arquitetura. Anton só tem um peso — e é o peso certo. */
-.display {
-  font-family: var(--font-display);
-  text-transform: uppercase;
-  line-height: 0.86;
-  letter-spacing: 0.01em;
-}
-
 ::selection {
-  background: var(--color-magenta);
-  color: var(--color-chalk);
+  background: var(--color-blue);
+  color: #fff;
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-magenta);
+  outline: 2px solid var(--color-blue);
   outline-offset: 2px;
 }

@@ -4,19 +4,20 @@
 // exatamente a topologia do bug. Roteiro em docs/fase-3.md.
 export default function DemoPage() {
   return (
-    <main className="mx-auto w-full max-w-[1440px] flex-1 px-6 pb-[60px] pt-[100px] md:px-16">
-      <header className="mb-10">
-        <p className="mb-4 text-sm font-medium">demonstração multi-aba</p>
-        <h1 className="display text-magenta text-[clamp(44px,6vw,80px)]">
-          Duas abas.
-          <br />
-          Um cookie.
+    <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-12">
+      <header className="mb-10 max-w-3xl">
+        <p className="text-sm font-semibold uppercase tracking-widest text-orange">
+          Demonstração multi-aba
+        </p>
+        <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
+          Duas abas. Um cookie.
         </h1>
-        <p className="mt-5 max-w-[60ch] text-base">
-          Congele a sessão na Aba B, espere a cadeia de tokens avançar e
+        <p className="mt-4 leading-relaxed text-mist">
+          Congele a sessão na <strong className="text-snow">Aba B</strong>,
+          espere a cadeia de tokens avançar (o aviso fica vermelho) e
           acorde-a. Antes da correção, esse gesto derrubava as duas abas;
-          agora, a guarda de escrita bloqueia o estado defasado e ninguém
-          desloga.
+          agora a guarda de escrita bloqueia o estado defasado e{" "}
+          <strong className="text-snow">ninguém desloga</strong>.
         </p>
       </header>
 
@@ -25,15 +26,15 @@ export default function DemoPage() {
           (label) => (
             <figure
               key={label}
-              className="overflow-hidden rounded-[20px] border-2 border-blush"
+              className="overflow-hidden rounded-2xl border border-line"
             >
-              <figcaption className="border-b-2 border-blush px-5 py-2.5 text-sm font-bold">
+              <figcaption className="border-b border-line bg-panel px-5 py-3 text-sm font-semibold">
                 {label}
               </figcaption>
               <iframe
                 src="/dashboard"
                 title={label}
-                className="h-[640px] w-full bg-chalk"
+                className="h-[680px] w-full bg-ink"
               />
             </figure>
           )

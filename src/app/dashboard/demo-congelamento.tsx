@@ -64,21 +64,21 @@ export function DemoCongelamento() {
   const armed = rotated && waited > 10;
 
   return (
-    <section className="space-y-4 rounded-[20px] bg-blush p-[30px]">
-      <h2 className="text-base font-bold">🧊 Demo: aba congelada</h2>
+    <section className="space-y-4 rounded-2xl border border-dashed border-orange/50 bg-panel p-6 md:p-7">
+      <h2 className="text-base font-semibold">🧊 Demo: aba congelada</h2>
 
       <div className="flex flex-wrap items-center gap-3">
         <button
           onClick={congelar}
-          className="rounded-[10px] border-2 border-ink px-4 py-2 text-sm font-bold transition-colors hover:border-magenta hover:text-magenta"
+          className="rounded-xl border border-line px-4 py-2.5 text-sm font-semibold transition-colors hover:border-mist"
         >
           1. Congelar (capturar sessão)
         </button>
         <button
           onClick={acordar}
           disabled={!frozen}
-          className={`rounded-[10px] px-4 py-2 text-sm font-bold text-chalk transition-transform disabled:opacity-40 ${
-            armed ? "bg-magenta hover:scale-[1.02]" : "bg-cotton"
+          className={`rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-colors disabled:opacity-40 ${
+            armed ? "bg-red" : "bg-line"
           }`}
         >
           2. Acordar com a sessão velha
@@ -86,22 +86,20 @@ export function DemoCongelamento() {
       </div>
 
       {frozen && (
-        <p className="text-xs tabular-nums">
+        <p className="text-xs tabular-nums text-mist">
           congelada: rt {suffix(frozen.refresh_token)} há {waited}s · atual: rt{" "}
           {suffix(currentRt)}{" "}
           {armed ? (
-            <span className="font-bold text-magenta">
+            <span className="font-semibold text-red">
               — cadeia avançou e a janela de reuso (10s) passou: acordar agora
               derruba tudo
             </span>
           ) : rotated ? (
-            <span className="font-medium">
+            <span className="font-medium text-orange">
               — cadeia avançou; aguarde passar a janela de reuso (10s)
             </span>
           ) : (
-            <span className="opacity-70">
-              — aguardando o auto-refresh rotacionar o token (~30s)
-            </span>
+            <span>— aguardando o auto-refresh rotacionar o token (~30s)</span>
           )}
         </p>
       )}
