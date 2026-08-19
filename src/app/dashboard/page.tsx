@@ -27,22 +27,25 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="flex-1 p-6">
-      <div className="mx-auto max-w-2xl space-y-6">
-        <header className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-semibold">Dashboard</h1>
-            <p className="text-sm text-neutral-500">
-              Sessão validada no servidor para <strong>{user.email}</strong>
-            </p>
-          </div>
+    <main className="mx-auto w-full max-w-[1440px] flex-1 px-6 pb-[60px] pt-[100px] md:px-16">
+      <header className="mb-12">
+        <p className="mb-4 text-sm font-medium">sessão validada no servidor</p>
+        <h1 className="display text-magenta text-[clamp(48px,7vw,94px)]">
+          Sessão viva.
+        </h1>
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <span className="rounded-full bg-blush px-4 py-1.5 text-sm font-medium">
+            {user.email}
+          </span>
           <form action={logout}>
-            <button className="rounded border border-neutral-300 px-3 py-2 text-sm dark:border-neutral-700">
+            <button className="rounded-full border-2 border-ink px-4 py-1 text-sm font-bold transition-colors hover:border-magenta hover:text-magenta">
               Sair
             </button>
           </form>
-        </header>
+        </div>
+      </header>
 
+      <div className="max-w-3xl space-y-8">
         <SessionRecovery />
         <DemoCongelamento />
         <SessionPanel />

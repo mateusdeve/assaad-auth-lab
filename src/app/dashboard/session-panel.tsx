@@ -80,49 +80,58 @@ export function SessionPanel() {
   const desync = memoryRt !== null && cookieRt !== null && memoryRt !== cookieRt;
 
   return (
-    <section className="space-y-4 rounded border border-neutral-200 p-4 text-sm dark:border-neutral-800">
-      <header className="flex items-center justify-between">
-        <h2 className="font-medium">Sessão vista pelo cliente (browser)</h2>
+    <section className="space-y-5 rounded-[20px] border-2 border-blush p-[30px]">
+      <header className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-base font-bold">
+          Sessão vista pelo cliente (browser)
+        </h2>
         {desync && (
-          <span className="rounded bg-red-600 px-2 py-0.5 text-xs font-semibold text-white">
+          <span className="rounded-full bg-magenta px-3 py-1 text-xs font-bold text-chalk">
             DESSINCRONIZADO
           </span>
         )}
       </header>
 
       {session ? (
-        <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 font-mono text-xs">
-          <dt className="text-neutral-500">usuário</dt>
+        <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 text-sm tabular-nums">
+          <dt className="font-medium opacity-60">usuário</dt>
           <dd>{session.user.email}</dd>
-          <dt className="text-neutral-500">access token expira em</dt>
-          <dd className={secondsLeft !== null && secondsLeft < 0 ? "text-red-600" : ""}>
+          <dt className="font-medium opacity-60">access token expira em</dt>
+          <dd
+            className={
+              secondsLeft !== null && secondsLeft < 0
+                ? "font-bold text-magenta"
+                : ""
+            }
+          >
             {secondsLeft !== null ? `${secondsLeft}s` : "—"}
           </dd>
-          <dt className="text-neutral-500">refresh token (memória)</dt>
+          <dt className="font-medium opacity-60">refresh token (memória)</dt>
           <dd>{suffix(memoryRt)}</dd>
-          <dt className="text-neutral-500">refresh token (cookie)</dt>
-          <dd className={desync ? "text-red-600 font-semibold" : ""}>
+          <dt className="font-medium opacity-60">refresh token (cookie)</dt>
+          <dd className={desync ? "font-bold text-magenta" : ""}>
             {suffix(cookieRt)}
-            {desync && " ≠ memória — servidor e cliente vão renovar com tokens diferentes"}
+            {desync &&
+              " ≠ memória — servidor e cliente vão renovar com tokens diferentes"}
           </dd>
         </dl>
       ) : (
-        <p className="text-red-600">
+        <p className="text-sm font-bold text-magenta">
           Cliente NÃO tem sessão (servidor renderizou esta página autenticada —
           dessincronizado).
         </p>
       )}
 
       <div>
-        <h3 className="mb-1 text-xs font-medium text-neutral-500">
+        <h3 className="mb-2 text-xs font-medium uppercase tracking-wide opacity-60">
           Eventos de auth nesta aba
         </h3>
         {events.length === 0 ? (
-          <p className="text-xs text-neutral-500">nenhum evento ainda</p>
+          <p className="text-xs opacity-60">nenhum evento ainda</p>
         ) : (
-          <ul className="space-y-0.5 font-mono text-xs">
+          <ul className="space-y-1 text-xs tabular-nums">
             {events.map((e, i) => (
-              <li key={i} className={e.bad ? "text-red-600" : ""}>
+              <li key={i} className={e.bad ? "font-bold text-magenta" : ""}>
                 {e.at} — {e.label}
               </li>
             ))}
