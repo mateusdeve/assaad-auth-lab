@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { instrumentedFetch, makeEntry, type AuthLogEntry } from "@/lib/supabase/instrument";
+import { resilientFetch } from "@/lib/supabase/resilient-fetch";
 
 function proxyLog(entry: AuthLogEntry) {
   const color = entry.kind === "refresh_fail" ? "\x1b[31m" : "\x1b[35m";
@@ -28,7 +29,7 @@ export async function proxy(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      global: { fetch: instrumentedFetch("proxy", proxyLog) },
+      global: { fetch: instrumentedFetch("proxy", proxyLog, resilientFetch()) },
       cookies: {
         getAll() {
           return request.cookies.getAll();

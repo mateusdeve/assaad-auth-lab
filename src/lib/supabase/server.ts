@@ -6,6 +6,7 @@ import {
   suffix,
   type AuthLogEntry,
 } from "./instrument";
+import { resilientFetch } from "./resilient-fetch";
 
 function serverLog(entry: AuthLogEntry) {
   const color =
@@ -40,7 +41,9 @@ export async function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      global: { fetch: instrumentedFetch("server", serverLog) },
+      global: {
+        fetch: instrumentedFetch("server", serverLog, resilientFetch()),
+      },
       cookies: {
         getAll() {
           return cookieStore.getAll();

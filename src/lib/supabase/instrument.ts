@@ -33,7 +33,8 @@ export function suffix(token: string | undefined | null) {
 
 export function instrumentedFetch(
   side: AuthLogEntry["side"],
-  sink: LogSink
+  sink: LogSink,
+  baseFetch: typeof fetch = fetch
 ): typeof fetch {
   return async (input, init) => {
     const url =
@@ -48,7 +49,7 @@ export function instrumentedFetch(
       : null;
 
     const started = Date.now();
-    const res = await fetch(input, init);
+    const res = await baseFetch(input, init);
 
     if (grant === "refresh_token" || grant === "password") {
       const body = (await res
