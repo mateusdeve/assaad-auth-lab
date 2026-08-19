@@ -261,7 +261,7 @@ export default function Home() {
           Valide você mesmo, em dois comandos.
         </h2>
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-2xl border border-line bg-panel p-7">
+          <div className="min-w-0 rounded-2xl border border-line bg-panel p-7">
             <p className="text-sm font-semibold">Rodar local</p>
             <pre className="mt-4 overflow-x-auto rounded-xl bg-ink p-5 text-sm leading-7 text-mist">
               <code>{`supabase start        # JWT de 120s p/ demo rápida
@@ -274,7 +274,7 @@ bash scripts/validar-correcao.sh
 bash scripts/reproduzir-bug.sh`}</code>
             </pre>
           </div>
-          <div className="flex flex-col justify-between gap-8 rounded-2xl border border-line bg-panel p-7">
+          <div className="flex min-w-0 flex-col justify-between gap-8 rounded-2xl border border-line bg-panel p-7">
             <div>
               <p className="text-sm font-semibold">O processo, em 4 PRs</p>
               <ul className="mt-4 space-y-2.5">
@@ -295,6 +295,21 @@ bash scripts/reproduzir-bug.sh`}</code>
                 ))}
               </ul>
             </div>
+            <p className="rounded-xl border border-line bg-ink px-4 py-3 text-sm leading-relaxed text-mist">
+              <strong className="font-semibold text-snow">
+                Testar sem instalar nada:
+              </strong>{" "}
+              entre com a conta demo{" "}
+              <code className="text-blue-soft">demo@authlab.dev</code> · senha{" "}
+              <code className="text-blue-soft">assaad-demo-2026</code> e abra a{" "}
+              <a
+                href="/demo"
+                className="font-medium text-snow underline-offset-4 hover:underline"
+              >
+                demo multi-aba
+              </a>
+              .
+            </p>
             <p className="text-sm leading-relaxed text-mist">
               Cada fase é um PR com documentação própria em{" "}
               <a

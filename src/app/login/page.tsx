@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import Image from "next/image";
 import { login, signup } from "./actions";
 
@@ -10,6 +10,8 @@ export default function LoginPage() {
     signup,
     null
   );
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
   const pending = loginPending || signupPending;
   const message = loginState?.error ?? signupState?.error;
@@ -40,6 +42,8 @@ export default function LoginPage() {
               required
               autoComplete="email"
               placeholder="voce@exemplo.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-xl border border-line bg-ink px-4 py-3 text-base placeholder:text-mist/50 transition-colors focus:border-blue focus:outline-none"
             />
           </label>
@@ -53,6 +57,8 @@ export default function LoginPage() {
               minLength={6}
               autoComplete="current-password"
               placeholder="••••••••"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
               className="w-full rounded-xl border border-line bg-ink px-4 py-3 text-base placeholder:text-mist/50 transition-colors focus:border-blue focus:outline-none"
             />
           </label>
@@ -83,6 +89,25 @@ export default function LoginPage() {
             </button>
           </div>
         </form>
+
+        <div className="mt-6 flex items-center justify-between gap-3 rounded-xl border border-line bg-ink px-4 py-3">
+          <p className="text-xs leading-relaxed text-mist">
+            Avaliando o teste? Use a conta demo:
+            <br />
+            <code className="text-blue-soft">demo@authlab.dev</code> ·{" "}
+            <code className="text-blue-soft">assaad-demo-2026</code>
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setEmail("demo@authlab.dev");
+              setSenha("assaad-demo-2026");
+            }}
+            className="shrink-0 rounded-lg border border-line px-3 py-2 text-xs font-semibold transition-colors hover:border-blue hover:text-blue-soft"
+          >
+            Preencher
+          </button>
+        </div>
       </div>
     </main>
   );
