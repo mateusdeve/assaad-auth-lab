@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 const fases = [
   { n: "01", nome: "o bug, de propósito", href: "docs/fase-1.md" },
@@ -78,12 +77,14 @@ export default function Home() {
           estava viva.
         </p>
         <figure className="mt-14">
-          <Image
-            src="/demo-bug.gif"
-            alt="Duas abas lado a lado: a aba congelada acorda e as duas são deslogadas"
-            width={1568}
-            height={555}
-            unoptimized
+          {/* MP4 de 92KB no lugar do GIF de 1,3MB — mesmo conteúdo, LCP são */}
+          <video
+            src="/demo-bug.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-label="Duas abas lado a lado: a aba congelada acorda e as duas são deslogadas"
             className="w-full"
           />
           <figcaption className="mt-3 text-sm">
