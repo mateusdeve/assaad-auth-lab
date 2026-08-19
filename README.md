@@ -93,6 +93,25 @@ medimos que a maioria desses "logouts" eram sessões ainda renováveis.
 *(Requisito 4 — a demonstração multi-aba — são os GIFs acima; roteiro em
 [docs/fase-3.md](docs/fase-3.md) e [docs/fase-4.md](docs/fase-4.md).)*
 
+## Testar em 1 minuto (sem instalar nada)
+
+Produção: **https://assaad-auth-lab.vercel.app**
+
+| | |
+|---|---|
+| Conta demo | `demo@authlab.dev` |
+| Senha | `assaad-demo-2026` |
+
+1. Entre em [/login](https://assaad-auth-lab.vercel.app/login) (botão
+   "Preencher" usa a conta demo).
+2. Abra [/demo](https://assaad-auth-lab.vercel.app/demo) → **Congelar** →
+   aguarde o aviso ficar vermelho (~2 min) → **Acordar** → ninguém desloga.
+3. No dashboard, acompanhe o painel: refresh token da memória e do cookie
+   sempre iguais, eventos de renovação em tempo real.
+
+> A conta demo é descartável e existe só neste laboratório (projeto Supabase
+> dedicado, sem dados reais, sem service_role).
+
 ## Como rodar
 
 ```bash
