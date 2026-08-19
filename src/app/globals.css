@@ -1,26 +1,49 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Design system "Agence Foudre" adaptado à Plataforma Assaad:
+   canvas creme quente, display condensado em magenta, corpo em verde
+   floresta. Flat de propósito — sem sombras, sem gradientes; a hierarquia
+   vem de escala tipográfica e cor. */
+@theme {
+  /* Cores */
+  --color-magenta: #db3c8a;
+  --color-ink: #00522d;
+  --color-blush: #fce5df;
+  --color-chalk: #fff8f6;
+  --color-lilac: #d1cfe4;
+  --color-bubblegum: #f29ebd;
+  --color-cotton: #e878b2;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Tipografia: Anton substitui Beni (display); Inter substitui
+     Clash Grotesk (todo o chrome funcional). Duas famílias, nunca mais. */
+  --font-display: var(--font-anton), "Arial Narrow", sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --radius-buttons: 10px;
+  --radius-cards: 20px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-chalk);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* Display editorial: caixa alta, leading apertado que faz o bloco de tipo
+   parecer arquitetura. Anton só tem um peso — e é o peso certo. */
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: var(--color-magenta);
+  color: var(--color-chalk);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-magenta);
+  outline-offset: 2px;
 }

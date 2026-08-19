@@ -64,21 +64,21 @@ export function DemoCongelamento() {
   const armed = rotated && waited > 10;
 
   return (
-    <section className="space-y-3 rounded border border-dashed border-amber-400 p-4 text-sm">
-      <h2 className="font-medium">🧊 Demo: aba congelada (Fase 3)</h2>
+    <section className="space-y-4 rounded-[20px] bg-blush p-[30px]">
+      <h2 className="text-base font-bold">🧊 Demo: aba congelada</h2>
 
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-3">
         <button
           onClick={congelar}
-          className="rounded border border-neutral-300 px-3 py-1.5 text-sm dark:border-neutral-700"
+          className="rounded-[10px] border-2 border-ink px-4 py-2 text-sm font-bold transition-colors hover:border-magenta hover:text-magenta"
         >
           1. Congelar (capturar sessão)
         </button>
         <button
           onClick={acordar}
           disabled={!frozen}
-          className={`rounded px-3 py-1.5 text-sm font-medium text-white disabled:opacity-40 ${
-            armed ? "bg-red-600" : "bg-neutral-400 dark:bg-neutral-600"
+          className={`rounded-[10px] px-4 py-2 text-sm font-bold text-chalk transition-transform disabled:opacity-40 ${
+            armed ? "bg-magenta hover:scale-[1.02]" : "bg-cotton"
           }`}
         >
           2. Acordar com a sessão velha
@@ -86,20 +86,22 @@ export function DemoCongelamento() {
       </div>
 
       {frozen && (
-        <p className="font-mono text-xs text-neutral-500">
+        <p className="text-xs tabular-nums">
           congelada: rt {suffix(frozen.refresh_token)} há {waited}s · atual: rt{" "}
           {suffix(currentRt)}{" "}
           {armed ? (
-            <span className="font-semibold text-red-600">
+            <span className="font-bold text-magenta">
               — cadeia avançou e a janela de reuso (10s) passou: acordar agora
               derruba tudo
             </span>
           ) : rotated ? (
-            <span className="text-amber-600">
+            <span className="font-medium">
               — cadeia avançou; aguarde passar a janela de reuso (10s)
             </span>
           ) : (
-            <span>— aguardando o auto-refresh rotacionar o token (~30s)</span>
+            <span className="opacity-70">
+              — aguardando o auto-refresh rotacionar o token (~30s)
+            </span>
           )}
         </p>
       )}
