@@ -188,25 +188,18 @@ export default function Home() {
           ))}
         </div>
 
-        <figure className="mt-16 overflow-hidden rounded-2xl border border-line">
-          <video
-            src="/demo-bug.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            aria-label="Duas abas lado a lado: a aba congelada acorda e as duas são deslogadas"
-            className="w-full"
-          />
-          <figcaption className="border-t border-line bg-panel px-6 py-4 text-sm text-mist">
-            <strong className="font-semibold text-snow">
-              Gravação do bug (antes da correção):
-            </strong>{" "}
-            a aba B congela segurando uma sessão antiga; ao acordar, o token já
-            consumido derruba as duas abas — de uma sessão que o servidor ainda
-            aceitava renovar.
-          </figcaption>
-        </figure>
+        <p className="mt-12 max-w-2xl text-sm leading-relaxed text-mist">
+          Cada passo foi confirmado com instrumentação — fetch interceptado
+          logando toda chamada de token nos três contextos (proxy, servidor e
+          browser). A gravação do bug em ação está em{" "}
+          <a
+            href={`${REPO}/blob/main/docs/fase-3.md`}
+            className="font-medium text-snow underline-offset-4 hover:underline"
+          >
+            docs/fase-3.md
+          </a>
+          .
+        </p>
       </section>
 
       {/* correção */}
@@ -234,6 +227,25 @@ export default function Home() {
             </article>
           ))}
         </div>
+        <figure className="mt-16 overflow-hidden rounded-2xl border border-line">
+          <video
+            src="/demo-correcao.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-label="Duas abas lado a lado: a aba congelada acorda com a sessão velha e ninguém é deslogado"
+            className="w-full"
+          />
+          <figcaption className="border-t border-line bg-panel px-6 py-4 text-sm text-mist">
+            <strong className="font-semibold text-snow">
+              Gravado em produção (acelerado 8×):
+            </strong>{" "}
+            a Aba B congela uma sessão, a cadeia de tokens avança, ela acorda
+            com o token já consumido — a guarda bloqueia a escrita defasada e
+            as duas abas seguem logadas.
+          </figcaption>
+        </figure>
         <p className="mt-12 text-2xl font-bold tracking-tight md:text-3xl">
           Resultado: o mesmo gesto que derrubava todas as abas termina em
           autocura. <span className="text-blue-soft">Ninguém desloga.</span>
