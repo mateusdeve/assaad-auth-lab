@@ -91,7 +91,7 @@ export function SessionRecovery() {
   return (
     <p
       role="status"
-      className="rounded-[10px] bg-cotton px-4 py-3 text-sm font-bold text-chalk"
+      className="rounded-xl border border-orange/50 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange"
     >
       🛟 {status}
     </p>

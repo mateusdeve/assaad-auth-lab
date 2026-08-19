@@ -27,25 +27,27 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] flex-1 px-6 pb-[60px] pt-[100px] md:px-16">
-      <header className="mb-12">
-        <p className="mb-4 text-sm font-medium">sessão validada no servidor</p>
-        <h1 className="display text-magenta text-[clamp(48px,7vw,94px)]">
+    <main className="mx-auto w-full max-w-4xl flex-1 px-5 py-12">
+      <header className="mb-10">
+        <p className="text-sm font-semibold uppercase tracking-widest text-orange">
+          Sessão validada no servidor
+        </p>
+        <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
           Sessão viva.
         </h1>
-        <div className="mt-6 flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-blush px-4 py-1.5 text-sm font-medium">
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <span className="rounded-full border border-line bg-panel px-4 py-1.5 text-sm font-medium text-mist">
             {user.email}
           </span>
           <form action={logout}>
-            <button className="rounded-full border-2 border-ink px-4 py-1 text-sm font-bold transition-colors hover:border-magenta hover:text-magenta">
+            <button className="rounded-full border border-line px-4 py-1.5 text-sm font-semibold text-mist transition-colors hover:border-red hover:text-red">
               Sair
             </button>
           </form>
         </div>
       </header>
 
-      <div className="max-w-3xl space-y-8">
+      <div className="space-y-6">
         <SessionRecovery />
         <DemoCongelamento />
         <SessionPanel />
